@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -19,12 +19,8 @@ jobs:
         shell: cmd
         run: call windows_build.cmd
 
-      - name: Publish Windows build
-        uses: ./.github/actions/ftp-upload
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
         with:
-          path: aseprite-${{ steps.build.outputs.ASEPRITE_VERSION }}
-          remote-name: aseprite-windows.zip
-          host: ${{ secrets.FTP_HOST }}
-          user: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASSWD }}
-          remote-dir: ${{ secrets.FTP_PATH }}
+          name: Aseprite-Windows
+          path: .
